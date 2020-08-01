@@ -138,6 +138,7 @@ if NEED_SERIAL
 libsigrok_la_SOURCES += \
 	src/serial.c \
 	src/serial_bt.c \
+	src/serial_tcp.c \
 	src/serial_hid.c \
 	src/serial_hid.h \
 	src/serial_hid_bu86x.c \

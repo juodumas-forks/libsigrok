@@ -53,6 +53,17 @@
  * @{
  */
 
+// TODO remove hacky prints
+void prbuf2(const char *name, const void *buf, long unsigned int count);
+void prbuf2(const char *name, const void *buf, long unsigned int count) {
+	printf("%s cnt=%lu buf=", name, count);
+	for (long unsigned int i = 0; i < count; ++i) {
+		unsigned char *x = (unsigned char *)buf + i;
+		*x == '\0' ? printf("00 ") : printf("%02x ", *x); 
+	}
+	printf("\n");
+}
+
 #ifdef HAVE_SERIAL_COMM
 
 /* See if an (assumed opened) serial port is of any supported type. */
@@ -99,6 +110,8 @@ SR_PRIV int serial_open(struct sr_serial_dev_inst *serial, int flags)
 		serial->lib_funcs = ser_lib_funcs_hid;
 	else if (ser_name_is_bt(serial))
 		serial->lib_funcs = ser_lib_funcs_bt;
+	else if (ser_name_is_tcp(serial))
+		serial->lib_funcs = ser_lib_funcs_tcp;
 	else
 		serial->lib_funcs = ser_lib_funcs_libsp;
 	if (!serial->lib_funcs)
@@ -394,6 +407,7 @@ static int _serial_write(struct sr_serial_dev_inst *serial,
 	const void *buf, size_t count,
 	int nonblocking, unsigned int timeout_ms)
 {
+printf("nonblocking=%d timeout=%d ", nonblocking, timeout_ms); prbuf2("== SERIAL WRITE", buf, count);
 	ssize_t ret;
 
 	if (!serial) {
@@ -453,6 +467,7 @@ SR_PRIV int serial_write_nonblocking(struct sr_serial_dev_inst *serial,
 static int _serial_read(struct sr_serial_dev_inst *serial,
 	void *buf, size_t count, int nonblocking, unsigned int timeout_ms)
 {
+/* printf("== SERIAL READ nonblocking=%d timeout_ms=%d ", nonblocking, timeout_ms); prbuf2("", buf, count); */
 	ssize_t ret;
 
 	if (!serial) {

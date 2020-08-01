@@ -687,6 +687,7 @@ $sr_pkglibs_summary
 Enabled hardware drivers:
 $sr_driver_summary
 Enabled serial communication transports:
+  - TCP ........................... yes
   - serial comm ................... $sr_have_serial_comm
   - libserialport ................. $sr_have_libserialport
   - hidapi ........................ $sr_have_libhidapi

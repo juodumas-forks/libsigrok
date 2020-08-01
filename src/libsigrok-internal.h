@@ -1491,6 +1491,10 @@ struct sr_serial_dev_inst {
 	GString *rcv_buffer;
 	serial_rx_chunk_callback rx_chunk_cb_func;
 	void *rx_chunk_cb_data;
+// TODO #ifdef HAVE_TCPSERIAL
+	char *tcp_address;
+	char *tcp_port;
+	int tcp_socket;
 #ifdef HAVE_LIBSERIALPORT
 	/** libserialport port handle */
 	struct sp_port *sp_data;
@@ -1983,6 +1987,8 @@ SR_PRIV int ser_name_is_hid(struct sr_serial_dev_inst *serial);
 extern SR_PRIV struct ser_lib_functions *ser_lib_funcs_hid;
 SR_PRIV int ser_name_is_bt(struct sr_serial_dev_inst *serial);
 extern SR_PRIV struct ser_lib_functions *ser_lib_funcs_bt;
+SR_PRIV int ser_name_is_tcp(struct sr_serial_dev_inst *serial);
+extern SR_PRIV struct ser_lib_functions *ser_lib_funcs_tcp;
 
 #ifdef HAVE_LIBHIDAPI
 struct vid_pid_item {
